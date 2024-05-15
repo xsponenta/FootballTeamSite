@@ -1,10 +1,14 @@
 import '../styles.css';
+import background from '../with_fans.jpg'
 
 const Main = () => {
     return (
         <main className="main">
-            <img src="placeholder.png" alt="Heading Image" />
-            <h1>Heading</h1>
+            <div className="header-image">
+                <img src={background} alt="Heading Image" />
+                <h1>Petro United with Fans!</h1>
+            </div>
+
             {/* Videos component */}
             <div className="videos">
                 {/* Tabs */}
