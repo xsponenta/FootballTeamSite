@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background-color: #e0e0e0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .logo {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+}
+.header nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+.header nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #555;
+}
+.header .lang {
+    display: flex;
+    align-items: center;
+}
+.header .lang select {
+    margin-left: 10px;
+}
+.main {
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+}
+.main img {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    display: block;
+    margin: 0 auto;
+}
+.main h1 {
+    margin: 20px 0;
+}
+.videos {
+    margin: 20px 0;
+}
+.videos .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.videos .tabs button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+}
+.videos .content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.videos .content .video {
+    width: 200px;
+    height: 150px;
+    background-color: #ccc;
+    margin: 10px;
+}
+.last-match {
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin: 20px 0;
+}
+.last-match .controls {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.last-match .controls button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+}
+.last-match .scoreboard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.last-match .scoreboard div {
+    text-align: center;
+}
+.subscribe {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+.subscribe input[type="email"] {
+    padding: 10px;
+    margin-right: 10px;
+    width: 200px;
+}
+.subscribe input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+}
+.footer {
+    background-color: #e0e0e0;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+.footer div {
+    width: 30%;
+}
