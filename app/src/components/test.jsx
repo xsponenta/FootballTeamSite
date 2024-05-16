@@ -8,7 +8,7 @@ function Test() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://10.10.240.163:5000/api/get_all_player');
+      const response = await fetch('http://10.10.243.126:5000/api/get_recent_highlights');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -24,8 +24,10 @@ function Test() {
       {data ? (
         <div>
           <h2>Data fetched successfully:</h2>
-          <p>{data[0]["picture"]}</p>
-          <img id="player-image" src={'data:image/jpeg;base64,' + data[2]["picture"]} alt="Player Image"></img>
+          <p>{data[0]["date"]}</p>
+          <video width="600" controls>
+            <source src={"http://10.10.243.126:5000/" + data[0]["video"]} type="video/mp4"/>
+          </video>
         </div>
       ) : (
         <p>Loading...</p>

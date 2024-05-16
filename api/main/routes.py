@@ -296,5 +296,23 @@ def get_all_players():
             "nickname": player.nickname,
             "position": player.position,
             "picture": encoded_image
-    })
+        })
     return jsonify(player_dicts)
+
+@app.route("/api/get_recent_highlights", methods = ["POST", "GET"])
+def get_recent_highlights():
+    "Sends all players"
+    session = Session()
+    highlights = session.query(Highlight).all()
+    highlights_dicts = []
+    for highlight in highlights:
+        video_ref = url_for('static', filename = 'highlights/' + highlight.video)
+        highlights_dicts.append({
+            "highlight_id": highlight.highlight_id,
+            "title": highlight.title,
+            "date": highlight.match.start_time,
+            "video": video_ref
+        })
+        
+    highlights_dicts.sort(key = lambda elem: elem["date"])
+    return jsonify(highlights_dicts[:6])
