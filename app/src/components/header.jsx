@@ -1,9 +1,12 @@
 import '../styles.css';
+import logo from '../logo.png'
 
 const Header = () => {
     return (
         <header className="header">
-            <div className="logo"></div>
+            <div className="logo">
+                <img src={logo}></img>
+            </div>
             <nav>
                 <a href="#">Our Team</a>
                 <a href="#">Matches</a>
@@ -12,13 +15,6 @@ const Header = () => {
                 <a href="#">About Us</a>
                 <a href="#">Contacts</a>
             </nav>
-            <div className="lang">
-                <label htmlFor="lang-select">Language:</label>
-                <select id="lang-select">
-                    <option value="en">EN</option>
-                    <option value="es">ES</option>
-                </select>
-            </div>
         </header>
     );
 };
