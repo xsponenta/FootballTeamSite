@@ -285,19 +285,19 @@ def get_all_players():
     "Sends all players"
     session = Session()
     players = session.query(Player).all()
-    player_dicts = []
+    player_dicts = {"Attacker": [], "Midfielder": [], "Defender": [], "Goalkeeper": []}
+    
     for player in players:
         with open('./main/static/profile_pics/' + player.picture, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-        player_dicts.append({
+        player_dicts[player.position].append({
             "player_id": player.player_id,
             "first_name": player.first_name,
             "last_name": player.last_name,
             "nickname": player.nickname,
-            "position": player.position,
             "picture": encoded_image
         })
-    return jsonify(player_dicts)
+    return jsonify([player_dicts])
 
 @app.route("/api/get_recent_highlights", methods = ["POST", "GET"])
 def get_recent_highlights():
