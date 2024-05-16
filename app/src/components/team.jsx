@@ -13,7 +13,7 @@ const TeamCategory = ({ title, members }) => (
     <div className="team-category">
         <h3>{title}</h3>
         {members.map((member, index) => (
-            <TeamMember key={index} name={member.name} photo={name}/>
+            <TeamMember key={index} name={member.name} photo={member.photo}/>
         ))}
     </div>
 );
@@ -21,10 +21,10 @@ const TeamCategory = ({ title, members }) => (
 const TeamSection = () => (
     <div className="team-section">
         <h2>Our Team</h2>
-        <TeamCategory title="Goalkeepers" members={[{}, {}]} />
-        <TeamCategory title="Defenders" members={[{}, {}]} />
-        <TeamCategory title="Midfielders" members={[{}, {}]} />
-        <TeamCategory title="Attackers" members={[{}, {}]} />
+        <TeamCategory title="Goalkeepers" members={[{name: 'Player 1', photo: '../Ivanyshyn.jpg'}, {name: 'Player 2', photo: '../Ivanyshyn.jpg'}]} />
+        <TeamCategory title="Defenders" members={[{name: 'Player 1', photo: '../Ivanyshyn.jpg'}, {name: 'Player 2', photo: '../Ivanyshyn.jpg'}]} />
+        <TeamCategory title="Midfielders" members={[{name: 'Player 1', photo: '../Ivanyshyn.jpg'}, {name: 'Player 2', photo: '../Ivanyshyn.jpg'}]} />
+        <TeamCategory title="Attackers" members={[{name: 'Player 1', photo: '../Ivanyshyn.jpg'}, {name: 'Player 2', photo: '../Ivanyshyn.jpg'}]} />
     </div>
 );
 

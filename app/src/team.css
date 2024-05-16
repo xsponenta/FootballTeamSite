@@ -1,0 +1,35 @@
+/* team-section.css */
+
+.team-section {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.team-category {
+    margin-bottom: 30px;
+}
+
+.team-category h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.team-member {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.member-photo {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.member-name {
+    font-size: 16px;
+    font-weight: bold;
+}
