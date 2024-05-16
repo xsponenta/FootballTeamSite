@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <div class="media-body">
+          <h2 class="account-heading">{{ hiker.first_name }} {{ hiker.last_name}}</h2>
+          <p class="text-secondary">Id - {{ hiker.hiker_id }}</p>
+          <p class="text-secondary">Age - {{ hiker.age }}</p>
+          <p class="text-secondary">Gender- {{ hiker.gender }}</p>
+          <p class="article-content">Experience Level - {{ hiker.experience_level }}</p>
+          <a href="{{ url_for("update_hiker", hiker_id = hiker.hiker_id )}}" class="btn btn-outline-info">Update Info</a>
+          <a href="{{ url_for("delete_hiker", hiker_id = hiker.hiker_id )}}" class="btn btn-danger">Delete Hiker</a>
+        </div>
+      </div>
+    </div>
+    <h3> Connected to hike: <a href="{{ url_for("hike_page", hike_id = hiker.hike.hike_id )}}" class="m2">Hike - {{ hiker.hike.hike_id }}</a></h3>
+{% endblock content %}
