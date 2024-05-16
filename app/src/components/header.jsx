@@ -10,7 +10,6 @@ const Header = () => {
             <nav>
                 <a href="#">Our Team</a>
                 <a href="#">Matches</a>
-                <a href="#">Shop</a>
                 <a href="#">Highlights</a>
                 <a href="#">About Us</a>
                 <a href="#">Contacts</a>

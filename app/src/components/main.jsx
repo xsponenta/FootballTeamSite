@@ -9,15 +9,8 @@ const Main = () => {
                 <h1>Petro United with Fans!</h1>
             </div>
 
-            {/* Videos component */}
             <div className="videos">
-                {/* Tabs */}
-                <div className="tabs">
-                    <button>Tournament</button>
-                    <button>Clips</button>
-                    <button>Episodes</button>
-                    <button>Interviews</button>
-                </div>
+                <h3>Videos by Petro United</h3>
                 {/* Videos content */}
                 <div className="content">
                     {/* Individual video components */}
@@ -29,27 +22,21 @@ const Main = () => {
             {/* Last Match component */}
             <div className="last-match">
                 <div className="controls">
-                    <button>Match Item</button>
-                    <button>Statistics</button>
+                    <h3>Last match review</h3>
                     <button>Highlights</button>
                 </div>
                 <div className="scoreboard">
-                    <div>
-                        <h2>Petro United</h2>
-                        <p>Player - Goal Time</p>
-                        <p>Player - Goal Time</p>
-                    </div>
-                    <div>
+                    <div className='league'>
                         <h2>League</h2>
-                        <div className="score">Score</div>
-                        <button>Watch Preview</button>
                     </div>
-                    <div>
+                    <div className="score">
+                        <h2>Petro United</h2>
+                        <h2>Score</h2>
                         <h2>Enemy team</h2>
-                        <p>Player - Goal Time</p>
-                        <p>Player - Goal Time</p>
                     </div>
                 </div>
+                <button>Watch Preview</button>
+                <img src="preview.png"></img>
             </div>
         </main>
     );
