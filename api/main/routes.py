@@ -1,13 +1,13 @@
 "Routes module"
 
-from flask import render_template, redirect, url_for, flash, jsonify
+import base64
+import secrets
+import os
+from flask import render_template, redirect, url_for, flash, jsonify, abort
 from main import app, Session
 from main.models import Player, Highlight, Statistic, Relation, Match
-from main.forms import PlayerForm, UpdatePlayerForm, MatchForm
+from main.forms import PlayerForm, UpdatePlayerForm, MatchForm, StatisticForm, HighlightForm
 from main.utils import save_picture
-import base64
-
-
 
 @app.route("/", methods = ["POST", "GET"])
 def main():
@@ -20,7 +20,6 @@ def players_page():
     session = Session()
     players = session.query(Player).all()
     return render_template("players.html", players = players, title = "Players")
-
 
 @app.route("/create/player", methods = ["POST", "GET"])
 def create_player():
@@ -46,6 +45,8 @@ def player_page(player_id):
     "Trail page"
     session = Session()
     player = session.query(Player).filter_by(player_id = player_id).first()
+    if not player:
+        abort(404)
     image_file = url_for('static', filename = 'profile_pics/' + player.picture)
     return render_template("player_page.html", player = player, 
             title = f"{player.first_name + ' ' + player.last_name} page", image_file = image_file)
@@ -55,6 +56,8 @@ def update_player(player_id):
     "Trail page"
     session = Session()
     player = session.query(Player).filter_by(player_id = player_id).first()
+    if not player:
+        abort(404)
     form = UpdatePlayerForm()
     if form.validate_on_submit():
         session = Session()
@@ -67,7 +70,7 @@ def update_player(player_id):
             player.picture = save_picture(form.picture.data)
         session.commit()
         flash("Player updated", category="success")
-        return redirect(url_for("players_page", player=player))
+        return redirect(url_for("player_page", player_id = player.player_id))
     form.first_name.data = player.first_name
     form.last_name.data = player.last_name
     form.position.data = player.position
@@ -79,6 +82,8 @@ def delete_player(player_id):
     "Delete trail"
     session = Session()
     player = session.query(Player).filter_by(player_id = player_id).first()
+    if not player:
+        abort(404)
     session.delete(player)
     session.commit()
     flash("Player Deleted", category="warning")
@@ -112,9 +117,13 @@ def create_match():
         for player_id in form.players.data:
             relation = Relation(player_id = int(player_id), match_id = match.match_id)
             session.add(relation)
+        statistic = Statistic(match_id = match.match_id)
+        session.add(statistic)
         session.commit()
         flash("Match added", category="success")
         return redirect(url_for("matches_page"))
+    form.team_score.data = 0
+    form.rival_score.data = 0
     return render_template("add_match.html", title = "Add Match",
             form = form, legend = "Create Match")
 
@@ -123,19 +132,24 @@ def match_page(match_id):
     "Trail page"
     session = Session()
     match = session.query(Match).filter_by(match_id = match_id).first()
+    if not match:
+        abort(404)
     players = []
+    statistic_id = int(match.statistics[0].statistic_id)
     relations = session.query(Relation).filter_by(match_id = match.match_id).all()
     for relation in relations:
         player = session.query(Player).filter_by(player_id = relation.player_id).first()
         players.append(player)
     return render_template("match_page.html", match = match, players = players,
-            title = f"Match Petro United - {match.rival_team} page")
+            title = f"Match Petro United - {match.rival_team} page", statistic_id = statistic_id)
 
 @app.route("/match/update/<int:match_id>", methods = ["POST", "GET"])
 def update_match(match_id):
     "Hike page"
     session = Session()
     match = session.query(Match).filter_by(match_id = match_id).first()
+    if not match:
+        abort(404)
     players_lst = []
     relations = session.query(Relation).filter_by(match_id = match_id).all()
     for relation in relations:
@@ -165,7 +179,107 @@ def update_match(match_id):
     form.players.data = players_lst
     return render_template("add_match.html", legend = "Update Match", form = form)
 
-import json 
+@app.route("/match/delete/<int:match_id>", methods = ["POST", "GET"])
+def delete_match(match_id):
+    "Delete match def"
+    session = Session()
+    match = session.query(Match).filter_by(match_id = match_id).first()
+    if not match:
+        abort(404)
+    relations = session.query(Relation).filter_by(match_id = match_id).all()
+    for relation in relations:
+        session.delete(relation)
+    statistic = session.query(Statistic).filter_by(match_id = match_id).first()
+    session.delete(statistic)
+    highlights = session.query(Highlight).filter_by(match_id = match_id).all()
+    for highlight in highlights:
+        os.remove("./main/static/highlights/" + highlight.video)
+        session.delete(highlight)
+    session.delete(match)
+    session.commit()
+    return redirect(url_for("matches_page"))
+
+@app.route("/statistic/update/<int:statistic_id>", methods = ["POST", "GET"])
+def update_statistic(statistic_id):
+    "update statistic"
+    session = Session()
+    statistic = session.query(Statistic).filter_by(statistic_id=statistic_id).first()
+    if not statistic:
+        abort(404)
+    form = StatisticForm()
+    if form.validate_on_submit():
+        statistic.hits_team = form.hits_team.data
+        statistic.hits_rival = form.hits_rival.data
+        statistic.hits_gate_team = form.hits_gate_team.data
+        statistic.hits_gate_rival = form.hits_gate_rival.data
+        statistic.falls_team = form.falls_team.data
+        statistic.falls_rivals = form.falls_rivals.data
+        statistic.yellow_cards_team = form.yellow_cards_team.data
+        statistic.yellow_cards_rival = form.yellow_cards_rival.data
+        statistic.red_cards_team = form.red_cards_team.data
+        statistic.red_cards_rival = form.red_cards_rival.data
+        statistic.offsides_team = form.offsides_team.data
+        statistic.offsides_rivals = form.offsides_rivals.data
+        statistic.corners_team = form.corners_team.data
+        statistic.corners_rivals = form.corners_rivals.data
+        session.commit()
+        return redirect(url_for("match_page", match_id = statistic.match_id))
+    form.hits_team.data = statistic.hits_team
+    form.hits_rival.data = statistic.hits_rival
+    form.hits_gate_team.data = statistic.hits_gate_team
+    form.hits_gate_rival.data = statistic.hits_gate_rival
+    form.falls_team.data = statistic.falls_team
+    form.falls_rivals.data = statistic.falls_rivals
+    form.yellow_cards_team.data = statistic.yellow_cards_team
+    form.yellow_cards_rival.data = statistic.yellow_cards_rival
+    form.red_cards_team.data = statistic.red_cards_team
+    form.red_cards_rival.data = statistic.red_cards_rival
+    form.offsides_team.data = statistic.offsides_team
+    form.offsides_rivals.data = statistic.offsides_rivals
+    form.corners_team.data = statistic.corners_team
+    form.corners_rivals.data = statistic.corners_rivals
+    return render_template("statistic_page.html", form = form, 
+            legend = "Statistic Page", title = "Statistic Update")
+
+@app.route("/match/highlights/<int:match_id>", methods = ["POST", "GET"])
+def match_highlights_page(match_id):
+    "Highlights page"
+    session = Session()
+    highlights = session.query(Highlight).filter_by(match_id = match_id).all()
+    return render_template("highlights.html", highlights = highlights, match_id = match_id, legend = "Highlights")
+
+@app.route("/match/highlight/add/<int:match_id>", methods = ["POST", "GET"])
+def highlight_add(match_id):
+    "Add highlight"
+    form = HighlightForm()
+    if form.validate_on_submit():
+        session = Session()
+        file = form.video.data
+        old_name, file_extension = os.path.splitext(file.filename)
+        old_name = f'{old_name}{file_extension}'
+        filename = secrets.token_hex(20)
+        file_name = "./main/static/highlights/" + f'{filename}{file_extension}'
+        file.save(file_name)
+        highlight = Highlight(title = form.title.data, video = f'{filename}{file_extension}', match_id = match_id)
+        session.add(highlight)
+        session.commit()
+        return redirect(url_for("match_highlights_page", match_id = match_id))
+    return render_template("add_highlight.html", title = "Add Highlight", 
+        legend = "Add Highlight", form = form)
+
+@app.route("/match/highlight/delete/<int:highlight_id>", methods = ["POST", "GET"])
+def highlight_delete(highlight_id):
+    "Highlight id"
+    session = Session()
+    highlight = session.query(Highlight).filter_by(highlight_id=highlight_id).first()
+    if not highlight:
+        abort(404)
+    match_id = highlight.match_id
+    os.remove("./main/static/highlights/" + highlight.video)
+    session.delete(highlight)
+    session.commit()
+    return redirect(url_for("match_highlights_page", match_id = match_id))
+
 @app.route("/api/get_all_player", methods = ["POST", "GET"])
 def get_all_players():
     "Sends all players"
@@ -183,106 +297,4 @@ def get_all_players():
             "position": player.position,
             "picture": encoded_image
     })
-    json_data = json.dumps(player_dicts, indent=4)
-
-# Write JSON data to a file
-    with open("players_with_photos.json", "w") as json_file:
-        json_file.write(json_data)
     return jsonify(player_dicts)
-
-# @app.route("/hike/<int:hike_id>", methods = ["POST", "GET"])
-# def hike_page(hike_id):
-#     "Hike page"
-#     session = Session()
-#     hike = session.query(Hike).filter_by(hike_id = hike_id).first()
-#     return render_template("hike_page.html", title = f"Hike_{hike_id} page", 
-#             hike = hike)
-    
-
-# @app.route("/hike/delete/<int:hike_id>", methods = ["POST", "GET"])
-# def delete_hike(hike_id):
-#     "Delete hike"
-#     session = Session()
-#     hike = session.query(Hike).filter_by(hike_id = hike_id).first()
-#     for hiker in hike.hikers:
-#         session.delete(hiker)
-#     session.delete(hike)
-#     session.commit()
-#     flash("Hike Deleted", category="warning")
-#     return redirect(url_for("hikes_page"))
-
-# @app.route("/hikers", methods = ["POST", "GET"])
-# def hikers_page():
-#     "Hikers page"
-#     session = Session()
-#     hikers = session.query(Hiker).all()
-#     return render_template("hikers.html", title = "Hikers", hikers = hikers)
-
-# @app.route("/create/hiker", methods = ["POST", "GET"])
-# def create_hiker():
-#     "Create hiker"
-#     form = HikerForm()
-#     session = Session()
-#     hikes = session.query(Hike).all()
-#     choices = [(str(hike.hike_id), "Hike - " + str(hike.hike_id)) for hike in hikes]
-#     if not choices:
-#         flash("There are no hikes available. Please add hikes before creating a hiker.", category="warning")
-#         return redirect(url_for("create_hike"))
-#     form.hikes.choices = choices
-#     if form.validate_on_submit():
-#         session = Session()
-#         hiker = Hiker(first_name = form.first_name.data, last_name = form.last_name.data, 
-#             age = form.age.data, gender = form.gender.data, 
-#             experience_level = form.experience_level.data, hike_id = form.hikes.data)
-#         session.add(hiker)
-#         session.commit()
-#         flash("Hike added", category="success")
-#         return redirect(url_for("hikers_page"))
-#     return render_template("add_hiker.html", form = form, legend = "Create Hiker")
-
-# @app.route("/hiker/<int:hiker_id>", methods = ["POST", "GET"])
-# def hiker_page(hiker_id):
-#     "Hiker page"
-#     session = Session()
-#     hiker = session.query(Hiker).filter_by(hiker_id = hiker_id).first()
-#     return render_template("hiker_page.html", title = f"Hiker_{hiker_id} page",
-#                     hiker = hiker) 
-
-# @app.route("/hiker/update/<int:hiker_id>", methods = ["POST", "GET"])
-# def update_hiker(hiker_id):
-#     "hiker page"
-#     session = Session()
-#     hiker = session.query(Hiker).filter_by(hiker_id = hiker_id).first()
-#     form = HikerForm()
-#     trails = session.query(Trail).all()
-#     choices = [(str(trail.trail_id), trail.name) for trail in trails]
-#     form.hikes.choices = choices
-#     if form.validate_on_submit():
-#         session = Session()
-#         hiker = session.query(Hiker).filter_by(hiker_id = hiker_id).first()
-#         hiker.first_name = form.first_name.data
-#         hiker.last_name = form.last_name.data
-#         hiker.age = form.age.data
-#         hiker.gender = form.gender.data
-#         hiker.experience_level = form.experience_level.data
-#         hiker.hike_id = form.hikes.data
-#         session.commit()
-#         flash("Hiker updated", category="success")
-#         return redirect(url_for("hiker_page", hiker_id=hiker_id))
-#     form.first_name.data = hiker.first_name
-#     form.last_name.data = hiker.last_name
-#     form.age.data = hiker.age
-#     form.gender.data = hiker.gender
-#     form.experience_level.data = hiker.experience_level
-#     form.hikes.data = str(hiker.hike_id)
-#     return render_template("add_hiker.html", legend = "Update Hiker", form = form)
-
-# @app.route("/hiker/delete/<int:hiker_id>", methods = ["POST", "GET"])
-# def delete_hiker(hiker_id):
-#     "Delete hike"
-#     session = Session()
-#     hiker = session.query(Hiker).filter_by(hiker_id = hiker_id).first()
-#     session.delete(hiker)
-#     session.commit()
-#     flash("Hiker Deleted", category="warning")
-#     return redirect(url_for("hikers_page"))

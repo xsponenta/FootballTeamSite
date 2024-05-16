@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Highlights</h1>
+    {% for highlight in highlights %}
+    <article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h2 class="account-heading">{{ highlight.title }}</h2>
+            <video width="600" controls>
+                <source src="{{url_for('static', filename = 'highlights/' + highlight.video)}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <a href="{{ url_for("highlight_delete", highlight_id = highlight.highlight_id)}}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    </article>
+    {% endfor %}
+    <a href="{{ url_for("highlight_add", match_id = match_id)}}" class="btn btn-outline-info">Add</a>
+{% endblock content %}

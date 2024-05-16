@@ -72,6 +72,32 @@ class MatchForm(FlaskForm):
     players = MultiCheckboxField("Players", choices=[])
     
     submit = SubmitField("Add")
+    
+class StatisticForm(FlaskForm):
+    "Statistic Form"
+    hits_team = IntegerField('Hits Team', validators=[InputRequired()])
+    hits_rival = IntegerField('Hits Rival', validators=[InputRequired()])
+    hits_gate_team = IntegerField('Hits Gate Team', validators=[InputRequired()])
+    hits_gate_rival = IntegerField('Hits Gate Rival', validators=[InputRequired()])
+    falls_team = IntegerField('Falls Team', validators=[InputRequired()])
+    falls_rivals = IntegerField('Falls Rivals', validators=[InputRequired()])
+    yellow_cards_team = IntegerField('Yellow cards Team', validators=[InputRequired()])
+    yellow_cards_rival = IntegerField('Yellow cards Rival', validators=[InputRequired()])
+    red_cards_team = IntegerField('Red cards Team', validators=[InputRequired()])
+    red_cards_rival = IntegerField('Red cards Rival', validators=[InputRequired()])
+    offsides_team = IntegerField('Offsides Team', validators=[InputRequired()])
+    offsides_rivals = IntegerField('Offsides Rival', validators=[InputRequired()])
+    corners_team = IntegerField('Corners Team', validators=[InputRequired()])
+    corners_rivals = IntegerField('Corners Rival', validators=[InputRequired()])
+
+    submit = SubmitField("Edit")
+
+class HighlightForm(FlaskForm):
+    "Highlight Form"
+    title = StringField("Title", validators=[InputRequired(), file.FileAllowed(['mp4', 'mov'])])
+    video = FileField("Video")
+
+    submit = SubmitField("Add")
 # class TrailForm(FlaskForm):
 #     "Trail form"
 #     name = StringField("Name", validators=[InputRequired()])

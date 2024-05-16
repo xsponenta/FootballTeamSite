@@ -7,6 +7,9 @@
           <p class="text-secondary">Score: {{ match.team_score }}:{{ match.rival_score }}</p>
           <p class="text-secondary">Start Time - {{ match.start_time }}</p>
           <a href="{{ url_for("update_match", match_id = match.match_id )}}" class="btn btn-outline-info">Update Info</a>
+          <a href="{{ url_for("update_statistic", statistic_id = statistic_id )}}" class="btn btn-outline-info">Edit Statistic</a>
+          <a href="{{ url_for("match_highlights_page", match_id = match.match_id )}}" class="btn btn-outline-info">Highlights</a>
+          <a href="{{ url_for("delete_match", match_id = match.match_id )}}" class="btn btn-danger">Delete</a>
         </div>
       </div>
     </div>
