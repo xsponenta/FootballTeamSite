@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <div class="media-body">
+          <h2 class="account-heading">{{ player.first_name }} {{ player.last_name }}</h2>
+          <p class="text-secondary">Also known as - {{ player.nickname }}</p>
+          <img class="account-img" src="{{ image_file }}">
+          <p class="text-secondary">Position - {{ player.position }}</p>
+          <a href="{{ url_for("update_player", player_id = player.player_id )}}" class="btn btn-outline-info">Update Info</a>
+          <a href="{{ url_for("delete_player", player_id = player.player_id )}}" class="btn btn-danger">Delete Player</a>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

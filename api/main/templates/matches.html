@@ -1,0 +1,43 @@
+<style>
+    table {
+        border: 1px solid black;
+        width: 80%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+    </style>
+    {% extends "layout.html" %}
+    {% block content %}
+        <h1>Matches</h1>
+        <table id="myTable">
+        <thead>
+            <tr>
+            <th>Start Time</th>
+            <th>Rival Team</th>
+            <th>Team Score</th>
+            <th>Rival Score</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match in matches %}
+            <tr>
+            <td><a class="mr-2" href="{{ url_for('match_page', match_id = match.match_id ) }}">{{ match.start_time.strftime("%Y-%m-%d %H:%M:%S") }}</a></td>
+            <td>{{ match.rival_team }}</td>
+            <td>{{ match.team_score }}</td>
+            <td>{{ match.rival_score }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <div class="form-group">
+            <a href="{{ url_for("create_match") }}">
+                <button>Create</button>
+            </a>
+        </div>
+    {% endblock content %}
+    
