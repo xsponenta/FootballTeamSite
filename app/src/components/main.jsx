@@ -1,5 +1,7 @@
 import '../styles.css';
 import background from '../with_fans.jpg'
+import logo from '../logo.png'
+import enemy from '../enemy.png'
 
 const Main = () => {
     return (
@@ -30,13 +32,16 @@ const Main = () => {
                         <h2>League</h2>
                     </div>
                     <div className="score">
+                        <img className="our" width="5%" src={logo}></img>
                         <h2>Petro United</h2>
                         <h2>Score</h2>
                         <h2>Enemy team</h2>
+                        <img className="enemy" width="11%" src={enemy}></img>
+                    </div>
+                    <div className="preview-button">
+                        <button>Watch Preview</button>
                     </div>
                 </div>
-                <button>Watch Preview</button>
-                <img src="preview.png"></img>
             </div>
         </main>
     );
