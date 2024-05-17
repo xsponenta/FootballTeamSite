@@ -4,6 +4,8 @@ import Home from "./pages/home.jsx"
 import About from "./pages/about.jsx"
 import Players from "./pages/players.jsx";
 import Test from "./components/test.jsx"
+import Matches from "./pages/matches.jsx"
+import Match from "./pages/match.jsx";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/players" element={<Players />} />
+      <Route path="/matches" element={<Matches />}/>
+      <Route path="/match/:id" element={<Match />} />
       <Route path="/test" element={<Test />}/>
     </Routes>
   );

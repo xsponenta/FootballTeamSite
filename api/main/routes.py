@@ -3,7 +3,8 @@
 import base64
 import secrets
 import os
-from flask import render_template, redirect, url_for, flash, jsonify, abort
+import datetime
+from flask import render_template, redirect, url_for, flash, jsonify, abort, request
 from main import app, Session
 from main.models import Player, Highlight, Statistic, Relation, Match
 from main.forms import PlayerForm, UpdatePlayerForm, MatchForm, StatisticForm, HighlightForm
@@ -286,7 +287,6 @@ def get_all_players():
     session = Session()
     players = session.query(Player).all()
     player_dicts = {"Attacker": [], "Midfielder": [], "Defender": [], "Goalkeeper": []}
-    
     for player in players:
         with open('./main/static/profile_pics/' + player.picture, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
@@ -313,6 +313,102 @@ def get_recent_highlights():
             "date": highlight.match.start_time,
             "video": video_ref
         })
-        
-    highlights_dicts.sort(key = lambda elem: elem["date"])
+    highlights_dicts.sort(key = lambda elem: elem["date"], reverse=True)
     return jsonify(highlights_dicts[:6])
+
+@app.route("/api/get_all_matches", methods = ["POST", "GET"])
+def get_all_matches():
+    "Sends all matches"
+    session = Session()
+    matches = session.query(Match).all()
+    matches_dict = []
+    for match in matches:
+        today = datetime.datetime.now()
+        json_obj = {
+            "match_id": match.match_id,
+            "rival_team": match.rival_team,
+            "team_score": match.team_score,
+            "rival_score": match.rival_score,
+            "start_time": match.start_time,
+            "ongoing": today < match.start_time
+        }
+        matches_dict.append(json_obj)
+    return jsonify(matches_dict)
+
+@app.route("/api/get_closest_ongoing_match", methods = ["POST", "GET"])
+def get_closest_ongoing_match():
+    "Sends all matches"
+    session = Session()
+    matches = session.query(Match).all()
+    matches_dict = []
+    for match in matches:
+        today = datetime.datetime.now()
+        if today < match.start_time:
+            json_obj = {
+                "match_id": match.match_id,
+                "rival_team": match.rival_team,
+                "team_score": match.team_score,
+                "rival_score": match.rival_score,
+                "start_time": match.start_time
+            }
+            matches_dict.append(json_obj)
+    matches_dict.sort(key = lambda elem: elem["start_time"])
+    return jsonify(matches_dict[0])
+
+@app.route("/api/get_match_info_by_id", methods = ["POST", "GET"])
+def get_match_info_by_id():
+    "Get Match info By Id"
+    data = request.json
+    match_id = data["match_id"]
+    session = Session()
+    match = session.query(Match).filter_by(match_id = match_id).first()
+    matches_dict = {"Match": {}, "Highlights": [], "Statistic": {}, "Players": []}
+    today = datetime.datetime.now()
+    json_obj = {
+        "match_id": match.match_id,
+        "rival_team": match.rival_team,
+        "team_score": match.team_score,
+        "rival_score": match.rival_score,
+        "start_time": match.start_time,
+        "ongoing": today < match.start_time
+    }
+    matches_dict["Match"] = json_obj
+    statistic = match.statistics[0]
+    stats = {
+        "hits_team": statistic.hits_team,
+        "hits_rival": statistic.hits_rival,
+        "hits_gate_team": statistic.hits_gate_team,
+        "hits_gate_rival": statistic.hits_gate_rival,
+        "falls_team": statistic.falls_team,
+        "falls_rivals": statistic.falls_rivals,
+        "yellow_cards_team": statistic.yellow_cards_team,
+        "yellow_cards_rival": statistic.yellow_cards_rival,
+        "red_cards_team": statistic.red_cards_team,
+        "red_cards_rival": statistic.red_cards_rival,
+        "corners_team": statistic.corners_team,
+        "corners_rivals": statistic.corners_rivals
+    }
+    matches_dict["Statistic"] = stats
+    relations = session.query(Relation).filter_by(match_id = match_id).all()
+    players = []
+    for relation in relations:
+        players.append(session.query(Player).filter_by(player_id = relation.player_id).first())
+    for player in players:
+        with open('./main/static/profile_pics/' + player.picture, "rb") as image_file:
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+        matches_dict["Players"].append({
+            "player_id": player.player_id,
+            "first_name": player.first_name,
+            "last_name": player.last_name,
+            "nickname": player.nickname,
+            "picture": encoded_image
+        })
+    for highlight in match.highlights:
+        video_ref = url_for('static', filename = 'highlights/' + highlight.video)
+        matches_dict["Highlights"].append({
+            "highlight_id": highlight.highlight_id,
+            "title": highlight.title,
+            "date": highlight.match.start_time,
+            "video": video_ref
+        })
+    return jsonify(matches_dict)
