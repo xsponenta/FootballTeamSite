@@ -6,7 +6,7 @@ import os
 import datetime
 from flask import render_template, redirect, url_for, flash, jsonify, abort, request
 from main import app, Session
-from main.models import Player, Highlight, Statistic, Relation, Match
+from main.models import Player, Highlight, Statistic, Relation, Match, Email
 from main.forms import PlayerForm, UpdatePlayerForm, MatchForm, StatisticForm, HighlightForm
 from main.utils import save_picture
 
@@ -281,6 +281,13 @@ def highlight_delete(highlight_id):
     session.commit()
     return redirect(url_for("match_highlights_page", match_id = match_id))
 
+@app.route("/emails", methods = ["POST", "GET"])
+def emails_page():
+    "Emails page"
+    session = Session()
+    emails = session.query(Email).all()
+    return render_template("emails_page.html", emails = emails)
+
 @app.route("/api/get_all_player", methods = ["POST", "GET"])
 def get_all_players():
     "Sends all players"
@@ -362,7 +369,7 @@ def get_match_info_by_id():
     match_id = data["match_id"]
     session = Session()
     match = session.query(Match).filter_by(match_id = match_id).first()
-    matches_dict = {"Match": {}, "Highlights": [], "Statistic": {}, "Players": []}
+    matches_dict = {"Match": {}, "Highlights": [], "Statistic": {}, "Players": {"Attacker": [], "Midfielder": [], "Defender": [], "Goalkeeper": []}}
     today = datetime.datetime.now()
     json_obj = {
         "match_id": match.match_id,
@@ -396,7 +403,7 @@ def get_match_info_by_id():
     for player in players:
         with open('./main/static/profile_pics/' + player.picture, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-        matches_dict["Players"].append({
+        matches_dict["Players"][player.position].append({
             "player_id": player.player_id,
             "first_name": player.first_name,
             "last_name": player.last_name,
@@ -412,3 +419,19 @@ def get_match_info_by_id():
             "video": video_ref
         })
     return jsonify(matches_dict)
+
+@app.route("/api/recieve_email", methods = ["POST", "GET"])
+def recieve_email():
+    "recieve_email"
+    if request.is_json:
+        session = Session()
+        data = request.get_json()
+        email = data.get('email')
+        check_mail = session.query(Email).filter_by(email = email).first()
+        if check_mail:
+            return jsonify({"message": "Email already exists"}), 200
+        new_email = Email(email = email)
+        session.add(new_email)
+        session.commit()
+        return jsonify({"message": "Email received successfully"}), 200
+    return jsonify({"error": "Request must be JSON"}), 400

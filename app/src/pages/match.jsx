@@ -6,15 +6,15 @@ import Footer from '../components/footer';
 import { useParams } from 'react-router-dom';
 
 const Match = () => {
-    const { id } = useParams();
+  const { id } = useParams();
   return (
     <div>
-        <Header />
-        <MatchPage />
-        <Subscribe />
-        <Footer />
+      <Header />
+      <MatchPage />
+      <Subscribe />
+      <Footer />
     </div>
-    );
+  );
 };
 
 export default Match;

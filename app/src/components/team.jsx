@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../team.css';
+import '../static/team.css';
 
 const PlayerList = ({ category, players }) => (
     <div className="player-list">
@@ -7,8 +7,8 @@ const PlayerList = ({ category, players }) => (
         <div className="player-grid">
             {players.map((player, playerIndex) => (
                 <div key={playerIndex} className="player-card">
-                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player"/>
-                    <p>{player.first_name} {player.last_name}</p>
+                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player" />
+                    <p className='football-title'>{player.first_name} {player.last_name}</p>
                 </div>
             ))}
         </div>
@@ -25,12 +25,17 @@ const TeamPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/get_all_player');
+            const response = await fetch('http://16.171.27.41:5000/api/get_all_player');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const playersData = await response.json();
-            setData(playersData);
+            const orderedKeys = ["Goalkeeper", "Defender", "Midfielder", "Attacker"];
+            const sortedPlayersData = {};
+            orderedKeys.forEach(key => {
+                sortedPlayersData[key] = playersData[0][key];
+            });
+            setData([sortedPlayersData]);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {

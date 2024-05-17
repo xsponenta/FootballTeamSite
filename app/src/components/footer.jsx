@@ -1,29 +1,20 @@
-import '../styles.css';
-import tiktok from '../tiktok.png'
-import facebook from '../facebook.png'
-import insta from '../insta.png'
+import '../static/styles.css';
+import tiktok from '../icons/tiktok.png'
+import kfc from "../icons/kfc.jpg"
+import revo from "../icons/revo.jpeg"
+import phillip from "../icons/phillip.png"
 
 const Footer = () => {
     return (
-        <footer className="footer">
+        <footer className="footer" id="AboutUs">
             <div className='links'>
-                <div>
-                    <p>Links</p>
-                </div>
-                <div className='services'>
-                    <a href="#"><img src={tiktok}></img></a>
-                    <a href="#"><img src={facebook}></img></a>
-                    <a href="#"><img src={insta}></img></a>
-                </div>
+                <a href="https://www.tiktok.com/@petro_united?_t=8mPynBO1Wbu&_r=1" className='icon'><img src={tiktok} className='icon'></img></a>
             </div>
             <div className='sponsors'>
-                <div>
-                    <p>Sponsors</p>
-                </div>
                 <div className='sponsors-list'>
-                    <p>Sponsor 1</p>
-                    <p>Sponsor 2</p>
-                    <p>Sponsor 3</p>
+                    <img src={kfc} className="sponsor-img-kfc"></img>
+                    <img src={revo} className="sponsor-img-revo"></img>
+                    <img src={phillip} className="sponsor-img-phillip"></img>
                 </div>
             </div>
             <div className='contacts'>
@@ -31,8 +22,8 @@ const Footer = () => {
                     <p>Contact Us</p>
                 </div>
                 <div className='fields'>
-                    <a href="#">About Us</a>
-                    <a href="#">Work with Us</a>
+                    <a href="#" className='links'>About Us</a>
+                    <a href="#" className='links'>Work with Us</a>
                 </div>
             </div>
         </footer>

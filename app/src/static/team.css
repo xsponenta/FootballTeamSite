@@ -1,0 +1,86 @@
+.team-page {
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 2vw;
+    margin-top: 5vw;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    color: gold;
+
+}
+
+.player-list {
+    margin-bottom: 1vw;
+}
+
+.player-list h3 {
+    font-size: 2.4vw;
+    margin-bottom: 0.1vw;
+}
+
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2vw, 21vw));
+    grid-gap: 2vw;
+}
+
+.player-card {
+    background-color: solid #C0C0C0;
+    padding: 1vw;
+    text-align: center;
+    border-radius: 1vw;
+    box-shadow: 0 1vw 4vw rgba(250, 255, 300, 0.1);
+    width: fit-content;
+    /* Встановлюємо фіксовану ширину квадратика */
+    height: fit-content;
+    /* Встановлюємо фіксовану висоту квадратика */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.player-card img {
+    width: 20vw;
+    /* Встановлюємо фіксовану ширину фото */
+    height: 20vw;
+    /* Встановлюємо фіксовану висоту фото */
+    object-fit: cover;
+    /* Масштабуємо зображення для заповнення області з збереженням пропорцій */
+    border-radius: 0.5vw;
+    margin-bottom: 1vw;
+    transition: transform 0.3s ease;
+    /* Анімація зміни масштабу при наведенні */
+}
+
+.player-card:hover {
+    transform: scale(1.05);
+    /* Збільшення масштабу при наведенні курсора */
+}
+
+.player-card p {
+    position: relative;
+    left: 0;
+    margin-top: -6vw;
+    font-weight: bold;
+    color: white;
+    font-size: 1.5vw;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    padding: 0.91vw;
+    /* Додамо невеликий відступ від рамки */
+    padding-left: 1vw;
+    background: rgba(0, 0, 0, 0.5);
+    /* Прозорий чорний фон */
+    opacity: 80%;
+    border-radius: 0.5vw;
+    /* Закругленість куточків */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    /* Блюрити рамку з прозорим білим коліром */
+    width: 91%;
+    /* Ширина на повну ширину батьківського елемента */
+}
+
+.football-title {
+    transform: translateY(1.5vw);
+}

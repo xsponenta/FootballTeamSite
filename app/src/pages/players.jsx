@@ -7,12 +7,12 @@ import Footer from '../components/footer';
 const Players = () => {
   return (
     <div>
-        <Header />
-        <TeamPage />
-        <Subscribe />
-        <Footer />
+      <Header />
+      <TeamPage />
+      <Subscribe />
+      <Footer />
     </div>
-    );
+  );
 };
 
 export default Players;
