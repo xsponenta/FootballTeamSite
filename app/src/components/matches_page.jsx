@@ -56,6 +56,7 @@ const MatchesPage = () => {
                         </div>
                     <ul className = "matches-container">
                         {filteredMatches.map(match => (
+                            <a href = {"/match/" + match.match_id} className='link-btn'>
                             <li key={match.match_id} className="lst-container">
                                 <div className='inner-div'>
                                     <p className='date'>{capitalizeFirstLetter(new Date(match.start_time).toLocaleDateString(undefined, options))}</p>
@@ -73,6 +74,7 @@ const MatchesPage = () => {
                                     </div>
                                 </div>
                             </li>
+                            </a>
                         ))}
                     </ul>
                     </div>
