@@ -30,7 +30,12 @@ const TeamPage = () => {
                 throw new Error('Network response was not ok');
             }
             const playersData = await response.json();
-            setData(playersData);
+            const orderedKeys = ["Goalkeeper", "Defender", "Midfielder", "Attacker"];
+            const sortedPlayersData = {};
+            orderedKeys.forEach(key => {
+              sortedPlayersData[key] = playersData[0][key];
+            });
+            setData([sortedPlayersData]);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {

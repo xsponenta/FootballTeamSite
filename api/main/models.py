@@ -92,7 +92,7 @@ class Highlight(Base):
     match_id = Column(Integer, ForeignKey('match.match_id'), nullable=False)
     match = relationship("Match", back_populates="highlights")
 
-class Emails(Base):
+class Email(Base):
     "Email"
     
     __tablename__ = "email"
