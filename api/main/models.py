@@ -91,3 +91,11 @@ class Highlight(Base):
     title = Column(String, nullable=False)
     match_id = Column(Integer, ForeignKey('match.match_id'), nullable=False)
     match = relationship("Match", back_populates="highlights")
+
+class Emails(Base):
+    "Email"
+    
+    __tablename__ = "email"
+    
+    email_id = Column(Integer, primary_key=True, unique=True, nullable=False)
+    email = Column(String, nullable=False)

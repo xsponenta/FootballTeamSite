@@ -2,9 +2,11 @@
     max-width: 80vw;
     margin: 0 auto;
     padding: 2vw;
+    margin-top: 5vw;
+    text-align: left;
     font-family: Arial, sans-serif;
     color: gold;
-    text-align: center
+
 }
 
 .player-list {
@@ -18,7 +20,7 @@
 
 .player-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(2vw, 25vw));
+    grid-template-columns: repeat(auto-fit, minmax(2vw, 21vw));
     grid-gap: 2vw;
 }
 
@@ -33,6 +35,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: transform 0.3s ease;
 }
 
 .player-card img {
@@ -44,19 +47,28 @@
     transition: transform 0.3s ease; /* Анімація зміни масштабу при наведенні */
 }
 
-.player-card:hover img {
+.player-card:hover {
     transform: scale(1.05); /* Збільшення масштабу при наведенні курсора */
 }
 
 .player-card p {
-    margin-top: -5.5vw;
+    position: relative;
+    left: 0;
+    margin-top: -6vw;
     font-weight: bold;
-    color: red;
+    color: white;
     font-size: 1.5vw;
+    text-align: left;
     font-family: 'Roboto', sans-serif;
-    padding: 0.6vw; /* Додамо невеликий відступ від рамки */
-    background-color: black; /* Прозорий білий фон */
+    padding: 0.91vw; /* Додамо невеликий відступ від рамки */
+    padding-left: 1vw;
+    background: rgba(0, 0, 0, 0.5); /* Прозорий чорний фон */
     opacity: 80%;
     border-radius: 0.5vw; /* Закругленість куточків */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Блюрити рамку з прозорим білим коліром */
+    width: 91%; /* Ширина на повну ширину батьківського елемента */
+}
+
+.football-title {
+    transform: translateY(1.5vw);
 }

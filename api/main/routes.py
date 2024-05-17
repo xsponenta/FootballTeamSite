@@ -362,7 +362,7 @@ def get_match_info_by_id():
     match_id = data["match_id"]
     session = Session()
     match = session.query(Match).filter_by(match_id = match_id).first()
-    matches_dict = {"Match": {}, "Highlights": [], "Statistic": {}, "Players": []}
+    matches_dict = {"Match": {}, "Highlights": [], "Statistic": {}, "Players": {"Attacker": [], "Midfielder": [], "Defender": [], "Goalkeeper": []}}
     today = datetime.datetime.now()
     json_obj = {
         "match_id": match.match_id,
@@ -396,7 +396,7 @@ def get_match_info_by_id():
     for player in players:
         with open('./main/static/profile_pics/' + player.picture, "rb") as image_file:
             encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-        matches_dict["Players"].append({
+        matches_dict["Players"][player.position].append({
             "player_id": player.player_id,
             "first_name": player.first_name,
             "last_name": player.last_name,

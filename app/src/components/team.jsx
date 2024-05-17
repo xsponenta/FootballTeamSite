@@ -8,7 +8,7 @@ const PlayerList = ({ category, players }) => (
             {players.map((player, playerIndex) => (
                 <div key={playerIndex} className="player-card">
                     <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player"/>
-                    <p>{player.first_name} {player.last_name}</p>
+                    <p className='football-title'>{player.first_name} {player.last_name}</p>
                 </div>
             ))}
         </div>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import "../match.css";
+import logo from "../logo.png"
+import enemy from "../enemy.png"
 
 const MatchPage = () => {
     const [matchData, setMatchesData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showOngoingMatches, setShowOngoingMatches] = useState(true);
     const { id } = useParams(); // Get the match ID from the URL
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    const [view, setView] = useState('match');
+    const [view, setView] = useState('statistics');
+    const [playingVideoId, setPlayingVideoId] = useState(null);
     useEffect(() => {
         fetchData();
     }, [id]);
@@ -61,36 +62,114 @@ const MatchPage = () => {
       );
     
       const renderStatistics = () => (
-        <div>
-          <h2>Statistics</h2>
-          <p>Hits Team: {matchData.Statistic.hits_team}</p>
+        <div class="statistics">
+          <h2>СТАТИСТИКА КОМАНДИ</h2>
+          <div class="teams">
+            <div class="team">
+              <div class="team-emblem">
+                <img src={logo} alt="Ukraine Team Emblem" />
+              </div>
+              <div class="team-stats">
+                <div class="stat">
+                  <span class="label">Удари</span>
+                  <span class="value">{matchData.Statistic.hits_team}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Удари у ворота</span>
+                  <span class="value">{matchData.Statistic.hits_gate_team}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Фоли</span>
+                  <span class="value">{matchData.Statistic.falls_team}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Жовті картки</span>
+                  <span class="value">{matchData.Statistic.yellow_cards_team}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Червоні картки</span>
+                  <span class="value">{matchData.Statistic.red_cards_team}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Кутові</span>
+                  <span class="value">{matchData.Statistic.corners_team}</span>
+                </div>
+              </div>
+            </div>
+            <div class="team">
+              <div class="team-emblem-enemy">
+                <img src={enemy} alt="France Team Emblem" />
+              </div>
+              <div class="team-stats">
+                <div class="stat">
+                  <span class="label">Удари</span>
+                  <span class="value">{matchData.Statistic.hits_rival}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Удари у ворота</span>
+                  <span class="value">{matchData.Statistic.hits_gate_rival}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Фоли</span>
+                  <span class="value">{matchData.Statistic.falls_rivals}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Жовті картки</span>
+                  <span class="value">{matchData.Statistic.yellow_cards_rival}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Червоні картки</span>
+                  <span class="value">{matchData.Statistic.red_cards_rival}</span>
+                </div>
+                <div class="stat">
+                  <span class="label">Кутові</span>
+                  <span class="value">{matchData.Statistic.corners_rivals}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       );
     
       const renderPlayers = () => (
-        <div>
-          <h2>Players</h2>
-          {matchData.Players.map(player => (
-            <div key={player.player_id}>
-              <p>Player Name: {player.first_name} {player.last_name}</p>
+        <div className="team-page">
+            <div>
+                {matchData.Players && Object.entries(matchData.Players).map(([category, players], index) => (
+                    <PlayerList key={index} category={category} players={players} />
+                ))}
             </div>
-          ))}
         </div>
       );
-    
+      const togglePlay = (id) => {
+        const video = document.getElementById(`video-${id}`);
+        if (playingVideoId === id) {
+            video.pause();
+            setPlayingVideoId(null);
+        } else {
+            if (playingVideoId !== null) {
+                document.getElementById(`video-${playingVideoId}`).pause();
+            }
+            video.play();
+            setPlayingVideoId(id);
+        }
+    };
       const renderHighlights = () => (
         <div>
-          <h2>Highlights</h2>
-          {matchData.Highlights.map(highlight => (
-            <div key={highlight.highlight_id}>
-              <p>Title: {highlight.title}</p>
-              <video controls>
-                <source src={"http://127.0.0.1:5000/" + highlight.video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+        <div>
+            {/* Individual video components */}
+            <div class="videos">
+            {matchData.Highlights.map((video, index) => (
+                <div class="content">
+                        <video id={`video-${video.highlight_id}`} className='video' onClick={() => togglePlay(video.highlight_id)}>
+                        <source src={"http://localhost:5000/" + video.video} type="video/mp4"/>
+                        Your browser does not support the video tag.
+                    </video>
+                    <h4 className='title'>{video.title}</h4>
+                </div>
+            ))}
             </div>
-          ))}
         </div>
+    </div>
       );
     return (
         <div>
@@ -100,14 +179,14 @@ const MatchPage = () => {
                 <p>Error: {error}</p>
             ) : (
                 <div className='btns-cont'>
-                    <h1>Match Info</h1>
-                    <div>
+                    <h1 className='match-info'>Match Info</h1>
+                    <div >
                         {renderMatchInfo()}
                     <div className='btns'>
                         <button onClick={() => setView('statistics')} className='btn'>Statistics</button>
                         <button onClick={() => setView('players')} className='btn'>Players</button>
                         <button onClick={() => setView('highlights')} className='btn'>Highlights</button>
-                    </div>
+                    </div >
                         {view === 'statistics' && renderStatistics()}
                         {view === 'players' && renderPlayers()}
                         {view === 'highlights' && renderHighlights()}
@@ -117,5 +196,17 @@ const MatchPage = () => {
         </div>
     );
 };
-
+const PlayerList = ({ category, players }) => (
+    <div className="player-list">
+        <h3>{category}</h3>
+        <div className="player-grid">
+            {players.map((player, playerIndex) => (
+                <div key={playerIndex} className="player-card">
+                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player"/>
+                    <p>{player.first_name} {player.last_name}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+);
 export default MatchPage;
