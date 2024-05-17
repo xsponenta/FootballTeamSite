@@ -313,7 +313,7 @@ def get_recent_highlights():
             "date": highlight.match.start_time,
             "video": video_ref
         })
-    highlights_dicts.sort(key = lambda elem: elem["date"])
+    highlights_dicts.sort(key = lambda elem: elem["date"], reverse=True)
     return jsonify(highlights_dicts[:6])
 
 @app.route("/api/get_all_matches", methods = ["POST", "GET"])
