@@ -69,7 +69,7 @@ body {
     transform: translateY(-8.9vw);
     background: rgba(0, 0, 0, 0.5);
     color: white;
-    font-size: 80px;
+    font-size: 4.8vw;
     text-align: left;
     padding-left: 1vw;
 }
@@ -163,7 +163,7 @@ body {
 }
 
 .league h2 {
-    font-size: 50px;
+    font-size: 3vw;
 }
 
 .preview-button {
@@ -172,7 +172,7 @@ body {
 
 .preview-button button {
     margin-left: 0.5vw;
-    height: 3vw;
+    height: 2vw;
     border: none;
     background-color: white;
     cursor: pointer;
