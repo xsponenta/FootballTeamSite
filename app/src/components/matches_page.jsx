@@ -51,32 +51,32 @@ const MatchesPage = () => {
                     <h1>All Matches</h1>
                     <div className='btns-cont'>
                         <div className='btns'>
-                        <button onClick={showOngoing} className='btn'>Upcoming</button>
-                        <button onClick={showFinished} className='btn'>Past</button>
+                            <button onClick={showOngoing} className='btn'>Upcoming</button>
+                            <button onClick={showFinished} className='btn'>Past</button>
                         </div>
-                    <ul className = "matches-container">
-                        {filteredMatches.map(match => (
-                            <a href = {"/match/" + match.match_id} className='link-btn'>
-                            <li key={match.match_id} className="lst-container">
-                                <div className='inner-div'>
-                                    <p className='date'>{capitalizeFirstLetter(new Date(match.start_time).toLocaleDateString(undefined, options))}</p>
-                                    <div className='score-sect'>
-                                        <p className='command'>Petro United</p>
-                                        {match.ongoing ? (
-                                            <p className='time'>{new Date(match.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                        ) : (
-                                            <div className='score-cont'>
-                                            <p className='score-label'>Score</p>
-                                            <p className='score'>{match.team_score} : {match.rival_score}</p>
+                        <ul className="matches-container">
+                            {filteredMatches.map(match => (
+                                <a href={"/match/" + match.match_id} className='link-btn'>
+                                    <li key={match.match_id} className="lst-container">
+                                        <div className='inner-div'>
+                                            <p className='date'>{capitalizeFirstLetter(new Date(match.start_time).toLocaleDateString(undefined, options))}</p>
+                                            <div className='score-sect'>
+                                                <p className='command'>Petro United</p>
+                                                {match.ongoing ? (
+                                                    <p className='time'>{new Date(match.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                                ) : (
+                                                    <div className='score-cont'>
+                                                        <p className='score-label'>Score</p>
+                                                        <p className='score'>{match.team_score} : {match.rival_score}</p>
+                                                    </div>
+                                                )}
+                                                <p className='command'>{match.rival_team}</p>
                                             </div>
-                                        )}
-                                        <p className='command'>{match.rival_team}</p>
-                                    </div>
-                                </div>
-                            </li>
-                            </a>
-                        ))}
-                    </ul>
+                                        </div>
+                                    </li>
+                                </a>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             )}

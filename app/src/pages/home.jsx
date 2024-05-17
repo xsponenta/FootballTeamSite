@@ -7,12 +7,12 @@ import Footer from '../components/footer';
 const Home = () => {
   return (
     <div>
-        <Header />
-        <Main />
-        <Subscribe />
-        <Footer />
+      <Header />
+      <Main />
+      <Subscribe />
+      <Footer />
     </div>
-    );
+  );
 };
 
 export default Home;

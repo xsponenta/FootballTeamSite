@@ -7,12 +7,12 @@ import Footer from '../components/footer';
 const Matches = () => {
   return (
     <div>
-        <Header />
-        <MatchesPage />
-        <Subscribe />
-        <Footer />
+      <Header />
+      <MatchesPage />
+      <Subscribe />
+      <Footer />
     </div>
-    );
+  );
 };
 
 export default Matches;

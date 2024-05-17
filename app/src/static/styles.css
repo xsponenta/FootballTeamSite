@@ -31,15 +31,17 @@ body {
     height: 4vw;
     margin-right: 1vw;
 }
+
 .header nav {
     flex-grow: 1;
     display: flex;
     justify-content: left;
 }
+
 .header nav a {
     margin: 0.5vw;
     text-decoration: none;
-    color:white;
+    color: white;
     transition: color 0.3s;
 }
 
@@ -83,8 +85,10 @@ body {
 .videos {
     display: grid;
     margin-top: 2vw;
-    grid-template-columns: repeat(auto-fit, minmax(2vw, 32vw)); /* 3 columns, each occupying equal space */
-    grid-gap: 1vw; /* gap between grid items */
+    grid-template-columns: repeat(auto-fit, minmax(2vw, 32vw));
+    /* 3 columns, each occupying equal space */
+    grid-gap: 1vw;
+    /* gap between grid items */
 }
 
 .title {
@@ -94,7 +98,8 @@ body {
 
 .video {
     height: 20vw;
-    width: 100%; /* make the video fill its container */
+    width: 100%;
+    /* make the video fill its container */
     background-color: black;
     cursor: pointer;
     border-radius: 2vw;
@@ -155,11 +160,13 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 .command-main {
     width: 20vw;
     text-align: center;
     font-size: 2vw;
 }
+
 .score {
     margin: 3vw;
 }
@@ -173,7 +180,7 @@ body {
     margin-right: 3vw;
 }
 
-.league h2{
+.league h2 {
     font-size: 2vw;
 }
 
@@ -204,6 +211,7 @@ body {
     align-items: center;
     width: 100%;
 }
+
 .subscribe {
     background-color: white;
     width: 40vw;
@@ -211,6 +219,7 @@ body {
     text-align: center;
     border-radius: 3vw;
 }
+
 .subscribe input[type="email"] {
     padding: 1vw;
     margin-right: 1vw;
@@ -260,6 +269,7 @@ input:hover {
     color: white;
     text-decoration: none;
 }
+
 .footer {
     background-color: #02000f;
     display: flex;
@@ -304,6 +314,7 @@ input:hover {
     align-items: center;
     gap: 6vw;
 }
+
 .links {
     display: flex;
     flex-direction: column;

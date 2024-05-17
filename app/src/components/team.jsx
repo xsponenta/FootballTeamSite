@@ -7,7 +7,7 @@ const PlayerList = ({ category, players }) => (
         <div className="player-grid">
             {players.map((player, playerIndex) => (
                 <div key={playerIndex} className="player-card">
-                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player"/>
+                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player" />
                     <p className='football-title'>{player.first_name} {player.last_name}</p>
                 </div>
             ))}
@@ -33,7 +33,7 @@ const TeamPage = () => {
             const orderedKeys = ["Goalkeeper", "Defender", "Midfielder", "Attacker"];
             const sortedPlayersData = {};
             orderedKeys.forEach(key => {
-              sortedPlayersData[key] = playersData[0][key];
+                sortedPlayersData[key] = playersData[0][key];
             });
             setData([sortedPlayersData]);
         } catch (error) {
