@@ -1,0 +1,32 @@
+<style>
+    table {
+        border: 1px solid black;
+        width: 80%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+    </style>
+    {% extends "layout.html" %}
+    {% block content %}
+        <h1>Emails</h1>
+        <table id="myTable">
+        <thead>
+            <tr>
+            <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for email in emails %}
+            <tr>
+            <td>{{ email.email }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endblock content %}
+    
