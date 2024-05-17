@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../matches.css"
+import "../static/matches.css"
 
 const MatchesPage = () => {
     const [matchesData, setMatchesData] = useState(null);

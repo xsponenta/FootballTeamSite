@@ -187,7 +187,7 @@ body {
 
 .last-match {
     position: relative;
-    background-image: url('last_match.jpg');
+    background-image: url('../icons/last_match.jpg');
     background-size: cover;
     background-position: center;
     padding: 2vw;
@@ -268,7 +268,7 @@ input:hover {
     border-top: 0.1vw solid white;
     padding-top: 2vw;
     padding-bottom: 2vw;
-    width: 99vw;
+    width: 100vw;
     box-shadow: 0 2vw 4vw rgba(250, 255, 300, 0.1);
 }
 

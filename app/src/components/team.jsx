@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../team.css';
+import '../static/team.css';
 
 const PlayerList = ({ category, players }) => (
     <div className="player-list">

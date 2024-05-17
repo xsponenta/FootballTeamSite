@@ -1,4 +1,4 @@
-import '../styles.css';
+import '../static/styles.css';
 import { useState } from 'react';
 
 const Subscribe = () => {

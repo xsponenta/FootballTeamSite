@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import logo from "../logo.png"
-import enemy from "../enemy.png"
+import logo from "../icons/logo.png"
+import enemy from "../icons/enemy.png"
 
 const MatchPage = () => {
     const [matchData, setMatchesData] = useState(null);

@@ -1,8 +1,8 @@
-import '../styles.css';
-import tiktok from '../tiktok.png'
-import kfc from "../kfc.jpg"
-import revo from "../revo.jpeg"
-import phillip from "../phillip.png"
+import '../static/styles.css';
+import tiktok from '../icons/tiktok.png'
+import kfc from "../icons/kfc.jpg"
+import revo from "../icons/revo.jpeg"
+import phillip from "../icons/phillip.png"
 
 const Footer = () => {
     return (

@@ -1,4 +1,4 @@
-import './App.css';
+import './static/App.css';
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home.jsx"
 import Players from "./pages/players.jsx";

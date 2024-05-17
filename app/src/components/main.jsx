@@ -1,7 +1,7 @@
-import '../styles.css';
-import background from '../with_fans.jpg'
-import logo from '../logo.png'
-import enemy from '../enemy.png'
+import '../static/styles.css';
+import background from '../icons/with_fans.jpg'
+import logo from '../icons/logo.png'
+import enemy from '../icons/enemy.png'
 import React, { useState, useEffect } from 'react';
 
 const Main = () => {
