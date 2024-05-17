@@ -17,7 +17,7 @@ const Main = () => {
                 <div className="content">
                     {/* Individual video components */}
                     {Array.from({ length: 6 }, (_, i) => (
-                        <div key={i} className="video">Subtitle</div>
+                        <div key={i} className="video"></div>
                     ))}
                 </div>
             </div>
