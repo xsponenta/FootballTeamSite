@@ -63,7 +63,7 @@ const Main = () => {
                         {jsonData.map(video => (
                                 <div class="content">
                                         <video id={`video-${video.highlight_id}`} className='video' onClick={() => togglePlay(video.highlight_id)}>
-                                        <source src={"http://localhost:5000/" + video.video} type="video/mp4"/>
+                                        <source src={"http://16.171.27.41:5000/" + video.video} type="video/mp4"/>
                                         Your browser does not support the video tag.
                                     </video>
                                     <h4 className='title'>{video.title}</h4>
