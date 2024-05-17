@@ -7,8 +7,8 @@ const PlayerList = ({ category, players }) => (
         <div className="player-grid">
             {players.map((player, playerIndex) => (
                 <div key={playerIndex} className="player-card">
-                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player" />
-                    <p>{player.first_name}</p>
+                    <img src={`data:image/jpeg;base64,${player.picture}`} alt="Player"/>
+                    <p>{player.first_name} {player.last_name}</p>
                 </div>
             ))}
         </div>
@@ -44,7 +44,6 @@ const TeamPage = () => {
                 <p>Loading...</p>
             ) : (
                 <div>
-                    <h2>Data fetched successfully:</h2>
                     {data && Object.entries(data[0]).map(([category, players], index) => (
                         <PlayerList key={index} category={category} players={players} />
                     ))}
