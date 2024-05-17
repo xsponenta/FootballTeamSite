@@ -25,7 +25,7 @@ const TeamPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/get_all_player');
+            const response = await fetch('http://16.171.27.41:5000/api/get_all_player');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

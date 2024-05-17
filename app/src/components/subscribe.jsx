@@ -7,7 +7,7 @@ const Subscribe = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch('http://localhost:5000/api/recieve_email', {
+        const response = await fetch('http://16.171.27.41:5000/api/recieve_email', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

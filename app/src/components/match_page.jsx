@@ -19,7 +19,7 @@ const MatchPage = () => {
             const dataToSend = {
                 "match_id": id
             };
-            const response = await fetch('http://127.0.0.1:5000/api/get_match_info_by_id', {
+            const response = await fetch('http://16.171.27.41:5000/api/get_match_info_by_id', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

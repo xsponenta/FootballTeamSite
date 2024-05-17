@@ -14,7 +14,7 @@ const Main = () => {
   
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/get_recent_highlights');
+        const response = await fetch('http://16.171.27.41:5000/api/get_recent_highlights');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -24,7 +24,7 @@ const Main = () => {
         console.error('Error fetching data:', error);
       }
       try {
-        const response = await fetch('http://127.0.0.1:5000/api/get_closest_ongoing_match');
+        const response = await fetch('http://16.171.27.41:5000/api/get_closest_ongoing_match');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
